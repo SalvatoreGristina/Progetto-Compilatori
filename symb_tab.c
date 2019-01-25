@@ -75,7 +75,7 @@ supporto *ins_supporto(char *pettorina, int tempo){
 			while(current != NULL){
 				if(strcmp(current->pettorina,pettorina) == 0){
 					current->tempo_tratto = tempo;
-					ordinamento(current);
+					ordinamento(current,0);
 					current->tempo_totale += tempo;
 				}
 				else{
@@ -87,7 +87,7 @@ supporto *ins_supporto(char *pettorina, int tempo){
 	}
 }
 
-void ordinamento(supporto *start){
+void ordinamento(supporto *start,int tipo){
 	int swapped, i;
 	supporto *ptr1;
 	supporto *rptr = NULL;
@@ -95,7 +95,7 @@ void ordinamento(supporto *start){
 	/* Checking for empty list */
 	if (start == NULL)
 		return;
-
+	if (tipo == 0){
 	do
 	{
 		swapped = 0;
@@ -114,10 +114,36 @@ void ordinamento(supporto *start){
 	}
 	while (swapped);
 }
+if (tipo == 1){
+do
+{
+	swapped = 0;
+	ptr1 = start;
+
+	while (ptr1->next != rptr)
+	{
+		if (ptr1->tempo_tratto > ptr1->next->tempo_tratto)
+		{
+			swap(ptr1, ptr1->next);
+			swapped = 1;
+		}
+		ptr1 = ptr1->next;
+	}
+	rptr = ptr1;
+}
+while (swapped);
+}
+}
 
 void swap(supporto *a, supporto *b)
 {
-	int temp = a->tempo_tratto;
-	a->tempo_tratto = b->tempo_tratto;
-	b->tempo_tratto = temp;
+	int temp = a->tempo_totale;
+	a->tempo_totale = b->tempo_totale;
+	b->tempo_totale = temp;
+}
+
+void print_res(){
+	int p = 1;
+	printf("CLASSIFICA GIORNO %s",tratt_list->data);
+	ordinamento(current,1);
 }
