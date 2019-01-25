@@ -31,3 +31,5 @@ ciclista *lookup(char *p);
 ciclista *ins_ciclista(char *codice, char *nome, char *squadra, char *pettorina);
 tratto *ins_tratto(char *data, char *citta_p, char *citta_a);
 supporto *ins_supporto(char *pettorina, int tempo);
+void ordinamento(supporto *start);
+void swap(supporto *a, supporto *b);
