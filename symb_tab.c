@@ -75,6 +75,7 @@ supporto *ins_supporto(char *pettorina, int tempo){
 			while(current != NULL){
 				if(strcmp(current->pettorina,pettorina) == 0){
 					current->tempo_tratto = tempo;
+					ordinamento(current);
 					current->tempo_totale += tempo;
 				}
 				else{
@@ -85,9 +86,38 @@ supporto *ins_supporto(char *pettorina, int tempo){
 		}
 	}
 }
-void conta_tappe(char *c_partenza,char *c_arrivo){
-	char *tempp = c_partenza;
-	char *tempa	= c_arrivo;
-	if()
-	conta_tappe++;
+
+void ordinamento(supporto *start){
+	int swapped, i;
+	supporto *ptr1;
+	supporto *rptr = NULL;
+
+	/* Checking for empty list */
+	if (start == NULL)
+		return;
+
+	do
+	{
+		swapped = 0;
+		ptr1 = start;
+
+		while (ptr1->next != rptr)
+		{
+			if (ptr1->tempo_tratto > ptr1->next->tempo_tratto)
+			{
+				swap(ptr1, ptr1->next);
+				swapped = 1;
+			}
+			ptr1 = ptr1->next;
+		}
+		rptr = ptr1;
+	}
+	while (swapped);
+}
+
+void swap(supporto *a, supporto *b)
+{
+	int temp = a->tempo_tratto;
+	a->tempo_tratto = b->tempo_tratto;
+	b->tempo_tratto = temp;
 }
