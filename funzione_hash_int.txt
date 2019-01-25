@@ -1,0 +1,5 @@
+unsigned int hash (int s){ //int non deve un puntatore
+	int h = 1;
+		h = (127*h+*s)%HASHSIZE;
+		return h;
+}
