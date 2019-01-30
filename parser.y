@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "sym_tab.h"
 int yylex();
-void yyerror (char const*);
+void yyerror(char const*);
 %}
 %union{
   char *stringa;
@@ -10,12 +10,14 @@ void yyerror (char const*);
 }
 %error-verbose
 %token <stringa> DATA PAROLE CODICE D_TAPPA PETTORINA
-%token <intero> NUMERO ORA MINUTO SECONDO
+%token <intero>  ORA MINUTOSECONDO
 %token DPN SEP1 SEP2 SEP3 TRAT ARR PARA PARC VIR
 %start Input
 %%
-Input: DATA SEP1 Sezione1 SEP2 SEP3 Sezione2
+Input: Data SEP1 Sezione1 SEP2 SEP3 Sezione2
   ;
+Data: DATA
+;
 Sezione1: L_ciclisti
   ;
 L_ciclisti: Ciclisti
@@ -28,10 +30,19 @@ Sezione2: L_tratti
 L_tratti: Tratti
   | L_tratti Tratti
   ;
-Tratti: DATA TRAT PAROLE TRAT PAROLE TRAT L_supporto {ins_tratto($1,$3,$5);}
+Tratti: D_TAPPA TRAT PAROLE TRAT PAROLE TRAT L_supporto {ins_tratto($1,$3,$5);}
   ;
 L_supporto: Supporto
   | L_supporto Supporto
+Supporto: PARA PETTORINA DPN ORA DPN MINUTOSECONDO DPN MINUTOSECONDO PARC ARR {ins_supporto($2,(($4*3600)+($6*60)+$8));}
   ;
-Supporto: PARA PETTORINA DPN ORE DPN MINUTO DPN SECONDO {ins_supporto($2,(($4*3600)+($6*60)+$8));}
-  ;
+%%
+void yyerror(char const *s){
+  fprintf(stderr, "%s/n", s);
+}
+int main(){
+  if(yyparse()==0){
+  print_res();
+  }
+  return 0;
+}
